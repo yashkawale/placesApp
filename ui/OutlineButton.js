@@ -29,7 +29,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     padding: 8,
-    margin: 4,
+    marginVertical: hp("2%"),
+    borderColor: Colors.blue,
+    borderWidth: 1,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: wp("3%"),
+    shadowColor: Colors.blue,
+    backgroundColor: "black",
   },
 
   pressed: {
@@ -38,7 +45,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: Colors.blue,
-    fontWeight: "600",
+    fontWeight: "bold",
     fontSize: wp("4%"),
   },
 });

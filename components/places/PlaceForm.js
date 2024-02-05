@@ -6,6 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import ImagePicker from "./ImagePicker";
+import LocationPicker from "./LocationPicker";
 
 const PlaceForm = () => {
   return (
@@ -15,6 +16,7 @@ const PlaceForm = () => {
       </View>
       <TextInput style={styles.input} />
       <ImagePicker />
+      <LocationPicker />
     </ScrollView>
   );
 };
@@ -39,10 +41,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightYellow,
     marginVertical: hp("1%"),
     borderRadius: 6,
-    shadowColor: Colors.green,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
+    shadowColor: Colors.yellow,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: wp("3%"),
     elevation: 4,
+    fontWeight: "600",
   },
 });

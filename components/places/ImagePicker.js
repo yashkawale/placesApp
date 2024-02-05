@@ -54,17 +54,14 @@ const ImagePicker = () => {
   }
   return (
     <View>
-      <Button title="Take Photo" onPress={captureImage} />
       <OutlineButton
         icon="camera"
         size={24}
         color={Colors.blue}
         title="Take Image"
+        onPress={captureImage}
       />
-      {/* <View style={styles.imageContainer}>{imagePreview}</View> */}
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={require("../../assets/icon.png")} />
-      </View>
+      <View style={styles.imageContainer}>{imagePreview}</View>
     </View>
   );
 };
@@ -84,11 +81,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowColor: Colors.lightGreen,
+    borderWidth: 1,
+    borderColor: Colors.green,
   },
 
   image: {
-    borderWidth: 1,
-    borderColor: Colors.green,
     borderRadius: 8,
     width: "100%",
     height: "100%",
