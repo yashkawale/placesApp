@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import OutlineButton from "../../ui/OutlineButton";
 import { Colors } from "../../constants/Colors";
 import {
@@ -11,10 +11,21 @@ import {
   PermissionStatus,
   getCurrentPositionAsync,
 } from "expo-location";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import MapPreview from "./MapPreview";
+import { getGeocoding } from "../../utils/fetch-geocoding";
 
-const LocationPicker = () => {
+const LocationPicker = ({ onLocationPick }) => {
+  const [pickedLocation, setPickedLocation] = useState();
   const [locationPermissionStatus, requestPermission] =
     useForegroundPermissions();
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
 
   const verifyPermission = async () => {
     if (locationPermissionStatus.status === PermissionStatus.UNDETERMINED) {
@@ -37,14 +48,56 @@ const LocationPicker = () => {
       return;
     }
     const location = await getCurrentPositionAsync();
-    console.log(location);
+    setPickedLocation({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
   };
 
-  const handleMapPick = async () => {};
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        latitude: route.params.pickedLatitude,
+        longitude: route.params.pickedLongitude,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [isFocused, route]);
+
+  useEffect(() => {
+    const handleLocationData = async () => {
+      if (pickedLocation) {
+        const address = await getGeocoding(
+          pickedLocation.latitude,
+          pickedLocation.longitude
+        );
+        onLocationPick({ ...pickedLocation, address: address });
+        console.log(address);
+      }
+    };
+    handleLocationData();
+  }, [onLocationPick, pickedLocation]);
+
+  const handleMapPick = () => {
+    navigation.navigate("Map");
+  };
+
+  let LocationPreview = (
+    <Text style={styles.fallBackText}>No location is picked yet!</Text>
+  );
+
+  if (pickedLocation) {
+    LocationPreview = (
+      <MapPreview
+        latitude={pickedLocation.latitude}
+        longitude={pickedLocation.longitude}
+      />
+    );
+  }
 
   return (
     <View>
-      <View style={styles.mapContainer}></View>
+      <View style={styles.mapContainer}>{LocationPreview}</View>
       <View style={styles.buttonsContainer}>
         <OutlineButton
           title="Locate User"
@@ -68,6 +121,10 @@ const LocationPicker = () => {
 export default LocationPicker;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
   mapContainer: {
     backgroundColor: Colors.black,
     width: "100%",
@@ -88,5 +145,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+  },
+
+  fallBackText: {
+    color: Colors.green,
   },
 });

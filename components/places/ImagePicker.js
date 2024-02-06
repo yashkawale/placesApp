@@ -12,7 +12,7 @@ import {
 } from "react-native-responsive-screen";
 import OutlineButton from "../../ui/OutlineButton";
 
-const ImagePicker = () => {
+const ImagePicker = ({ onImagePick }) => {
   const [cameraPermissionStatus, requestPermission] = useCameraPermissions();
   const [imageSource, setImageSource] = useState();
 
@@ -43,6 +43,7 @@ const ImagePicker = () => {
     });
 
     setImageSource(image.assets[0].uri);
+    onImagePick(image.assets[0].uri);
   };
 
   let imagePreview = (

@@ -1,12 +1,11 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "../constants/Colors";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const OutlineButton = ({ onPress, icon, size, color, title }) => {
+const FillButton = ({ onPress, title }) => {
   return (
     <Pressable
       onPress={onPress}
@@ -14,13 +13,12 @@ const OutlineButton = ({ onPress, icon, size, color, title }) => {
         pressed ? [styles.button, styles.pressed] : styles.button
       }
     >
-      <Ionicons name={icon} size={size} color={color} />
       <Text style={styles.title}>{title}</Text>
     </Pressable>
   );
 };
 
-export default OutlineButton;
+export default FillButton;
 
 const styles = StyleSheet.create({
   button: {
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: wp("3%"),
     shadowColor: Colors.blue,
-    backgroundColor: "black",
+    backgroundColor: Colors.blue,
   },
 
   pressed: {
@@ -44,7 +42,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: Colors.blue,
+    color: Colors.black,
     fontWeight: "bold",
     fontSize: wp("4%"),
   },

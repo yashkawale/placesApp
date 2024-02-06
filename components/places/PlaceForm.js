@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Colors } from "../../constants/Colors";
 import {
   widthPercentageToDP as wp,
@@ -7,16 +7,40 @@ import {
 } from "react-native-responsive-screen";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
+import FillButton from "../../ui/FillButton";
 
 const PlaceForm = () => {
+  const [enteredTitle, setEnteredTitle] = useState();
+  const [pickedImage, setPickedImage] = useState();
+  const [pickedLocation, setPickedLocation] = useState();
+
+  const onImagePick = (imageUri) => {
+    setPickedImage(imageUri);
+  };
+
+  const onLocationPick = useCallback((selectedLocation) => {
+    setPickedLocation(selectedLocation);
+  }, []);
+
+  const handleFormSubmit = () => {
+    // console.log(enteredTitle);
+    // console.log(pickedImage);
+    console.log(pickedLocation);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View>
         <Text style={styles.title}>Title</Text>
       </View>
-      <TextInput style={styles.input} />
-      <ImagePicker />
-      <LocationPicker />
+      <TextInput
+        style={styles.input}
+        value={enteredTitle}
+        onChangeText={(text) => setEnteredTitle(text)}
+      />
+      <ImagePicker onImagePick={onImagePick} />
+      <LocationPicker onLocationPick={onLocationPick} />
+      <FillButton title="Add Place" onPress={handleFormSubmit} />
     </ScrollView>
   );
 };
@@ -26,7 +50,7 @@ export default PlaceForm;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: hp("5%"),
+    paddingHorizontal: hp("5%"),
   },
 
   title: {
