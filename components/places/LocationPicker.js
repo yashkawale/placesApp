@@ -72,7 +72,6 @@ const LocationPicker = ({ onLocationPick }) => {
           pickedLocation.longitude
         );
         onLocationPick({ ...pickedLocation, address: address });
-        console.log(address);
       }
     };
     handleLocationData();

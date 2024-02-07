@@ -8,8 +8,9 @@ import {
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import FillButton from "../../ui/FillButton";
+import { Place } from "../../models/place";
 
-const PlaceForm = () => {
+const PlaceForm = ({ onCreatePlace }) => {
   const [enteredTitle, setEnteredTitle] = useState();
   const [pickedImage, setPickedImage] = useState();
   const [pickedLocation, setPickedLocation] = useState();
@@ -23,9 +24,8 @@ const PlaceForm = () => {
   }, []);
 
   const handleFormSubmit = () => {
-    // console.log(enteredTitle);
-    // console.log(pickedImage);
-    console.log(pickedLocation);
+    const placeData = new Place(enteredTitle, pickedImage, pickedLocation);
+    onCreatePlace(placeData);
   };
 
   return (
